@@ -7,10 +7,11 @@ module.exports = defineConfig({
     },
 
     env: {
-      URL_base: "https://opensource-demo.orangehrmlive.com"
+      URL_base: "https://opensource-demo.orangehrmlive.com",
+      AdminUsername: "Admin",
+      AdminPassword: "admin123",
+      NewUserPassword: "password1",
     },
-
-    retries: 3,
 
     viewportWidth: 1900,
     viewportHeight: 1080,

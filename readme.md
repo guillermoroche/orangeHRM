@@ -51,20 +51,9 @@ To run the E2E tests, use the following command:
 npx cypress run
 ```
 
-## Contributing
-Contributions are welcome! Please read the [contributing guidelines](CONTRIBUTING.md) for more information.
-
-## License
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
 
 ## Authors
 - Guillermo Roche Arcas (guillermorochea@gmail.com)
+- [LinkedIn](https://www.linkedin.com/in/guilleroche)
 
 
-## Sample Table
-
-| Header 1 | Header 2 | Header 3 |
-|----------|----------|----------|
-| Row 1, Col 1 | Row 1, Col 2 | Row 1, Col 3 |
-| Row 2, Col 1 | Row 2, Col 2 | Row 2, Col 3 |
-| Row 3, Col 1 | Row 3, Col 2 | Row 3, Col 3 |
