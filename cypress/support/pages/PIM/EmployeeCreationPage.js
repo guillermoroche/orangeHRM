@@ -77,6 +77,15 @@ class EmployeeCreationPage {
         cy.get(this.formSaveButton).click();
     }
 
+    /**
+     * Adds a new employee to the system by filling out the employee form and optionally the login details.
+     *
+     * @param {string} employeeName - The name of the employee.
+     * @param {string} employeeId - The ID of the employee.
+     * @param {string} [employeeUserName] - The username for the employee's login (optional).
+     * @param {string} [employeePassword] - The password for the employee's login (optional).
+     * @param {string} [employeeStatus] - The status of the employee (optional).
+     */
     addEmployee(employeeName, employeeId, employeeUserName, employeePassword, employeeStatus) {
         this.fillEmployeeForm(employeeName);
         this.fillEmployeeId(employeeId);

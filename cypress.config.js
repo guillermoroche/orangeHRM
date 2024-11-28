@@ -12,7 +12,7 @@ module.exports = defineConfig({
       AdminPassword: "admin123",
       NewUserPassword: "password1",
     },
-
+    watchForFileChanges: false,
     viewportWidth: 1900,
     viewportHeight: 1080,
   },

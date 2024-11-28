@@ -111,7 +111,7 @@ describe('User Management Tests', () => {
         mainPage.checkMainPage();
     });
 
-    it.only('Add new employee with disabled login details and check that cannot login in the app', () => {
+    it('Add new employee with disabled account and check that cannot login in the app', () => {
         let employeeFullName = getRandomFullName();
         let employeeId = getRandomEmployeeId();
         let employeeUserName = employeeFullName.firstName + employeeFullName.lastName+employeeId;
