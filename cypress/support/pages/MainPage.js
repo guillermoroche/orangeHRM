@@ -9,6 +9,17 @@ class MainPage {
         this.logoutButton = `${this.topBar} ul[role='menu'] li a:contains('Logout')`;
 
         this.sideMenuOption = `${this.sideMenu} div.oxd-sidepanel-body li`;
+
+        this.sideMenuOptions = {
+            dashboard: 'Dashboard',
+            PIM: 'PIM',
+            leave: 'Leave',
+            time: 'Time',
+            recruitment: 'Recruitment',
+            performance: 'Performance',
+            directory: 'Directory',
+            maintenance: 'Maintenance'
+        }
     }
 
     checkMainPage() {
@@ -18,6 +29,7 @@ class MainPage {
     }
 
     selectSideMenuOption(option) {
+        cy.log('Selecting ' + option + ' from the side menu');
         cy.get(this.sideMenuOption).contains(option).click();
     }
 

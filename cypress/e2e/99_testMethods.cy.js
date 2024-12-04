@@ -7,15 +7,15 @@ describe('TEST SANDBOX', () => {
         let loginPage = new LoginPage();
         loginPage.loginIntoApp();
         const employee = {
-            firstname: 'John',
+            firstname: 'Jane',
             middlename: 'Doe',
-            lastname: 'Smith',
-            employeeId: '12345',
+            lastname: 'dasdasd',
+            employeeId: '123456',
             loginDetails: true,
-            username: '',
+            username: 'dasdasdda',
             password: '',
             confirmedPassword: 'password21',
-            status: 'Enabled'
+            status: 'Disabled'
         };
         employeeCreationFlow.createEmployee(employee);
         employeeCreationFlow.validateErrorMessages(employee);

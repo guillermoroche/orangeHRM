@@ -10,11 +10,6 @@ class EmployeeCreationFlows {
         this.employeeCreationPage = new EmployeeCreationPage();
         this.employeeProfilePage = new EmployeeProfilePage();
     }
-
-    testMethod() {
-        cy.log('This is a test method');
-    }
-
     /**
      * Creates a new employee and verifies the employee's basic details.
      *
@@ -29,85 +24,79 @@ class EmployeeCreationFlows {
      * @param {string} employeeDetails.confirmedPassword - The confirmed password for the employee's login.
      * @param {string} employeeDetails.status - The status of the account to be created.
      */
-    createEmployee({ firstname,
-        middlename,
-        lastname,
-        employeeId,
-        loginDetails,
-        username,
-        password,
-        confirmedPassword,
-        status }) {
-        cy.log('Creating a new employee');
-        // Select the PIM (employeeManagement) option from the side menu
-        this.mainPage.selectSideMenuOption('PIM');
-        // Click the Add Employee button
-        this.employeeManagementPage.clickAddEmployee();
-        // Fill out the employee form with mandatory details
-        this.employeeCreationPage.fillEmployeeFirstName(firstname);
-        this.employeeCreationPage.fillEmployeeMiddleName(middlename);
-        this.employeeCreationPage.fillEmployeeLastName(lastname);
-        this.employeeCreationPage.fillEmployeeId(employeeId);
-        // If the username or password are provided, fill out the login details
-        if (loginDetails) {
-            this.employeeCreationPage.switchLoginDetails();
-            this.employeeCreationPage.fillEmployeeUserName(username);
-            this.employeeCreationPage.fillEmployeePassword(password);
-            this.employeeCreationPage.fillEmployeeConfirmedPassword(confirmedPassword);
-            //TODO - Add the status selection for the employeeAccount
-            //this.employeeCreationPage.selectEmployeeStatus(status);
-        }
-        // Save the employee
-        this.employeeCreationPage.clickSaveButton();
+    createEmployee(employeeDetails) {
+            //STEP 1: Navigate to the Employee Management page
+            this.mainPage.selectSideMenuOption(this.mainPage.sideMenuOptions.PIM);
+            //STEP 2: Click on the Add button
+            this.employeeManagementPage.clickAddButton();
+            //STEP 3: Fill in the employee full name and id
+            this.fillEmployeeBasicDetails(employeeDetails);
+            //STEP 4: Fill in the login details if required
+            if(employeeDetails.loginDetails) {
+                this.fillEmployeeLoginDetails(employeeDetails);
+            }
+            //STEP 5: Click on the Save button
+            this.employeeCreationPage.clickSaveButton();
     }
-    /**
-     * Validates the error messages for employee creation form fields.
-     * Logs appropriate error messages if any required field is missing or invalid.
-     *
-     * @param {Object} params - The parameters for validation.
-     * @param {string} params.firstname - The first name of the employee.
-     * @param {string} params.middlename - The middle name of the employee.
-     * @param {string} params.lastname - The last name of the employee.
-     * @param {string} params.employeeId - The employee ID.
-     * @param {boolean} params.loginDetails - Indicates if login details are provided.
-     * @param {string} params.username - The username for login.
-     * @param {string} params.password - The password for login.
-     * @param {string} params.confirmedPassword - The confirmed password for login.
-     * @param {string} params.status - The status of the employee.
-     */
-    validateErrorMessages({ firstname, middlename, lastname, employeeId, loginDetails, username, password, confirmedPassword, status }) {
 
-        //TODO - Make the corresponding methods to assert the error messages
-        //NOTE - The methods should be in the EmployeeCreationPage.js file
-        if (!firstname) {
-            cy.log('First name is missing');
+    fillEmployeeBasicDetails(employeeDetails) {
+
+        this.employeeCreationPage.fillEmployeeFirstName(employeeDetails.firstname);
+        this.employeeCreationPage.fillEmployeeMiddleName(employeeDetails.middlename);
+        this.employeeCreationPage.fillEmployeeLastName(employeeDetails.lastname);
+        this.employeeCreationPage.fillEmployeeId(employeeDetails.employeeId);
+    
+    }
+    fillEmployeeLoginDetails(employeeDetails) {
+
+        this.employeeCreationPage.switchLoginDetails();
+        this.employeeCreationPage.fillEmployeeUsername(employeeDetails.username);
+        this.employeeCreationPage.fillEmployeePassword(employeeDetails.password);
+        this.employeeCreationPage.fillEmployeeConfirmedPassword(employeeDetails.confirmedPassword);
+        this.employeeCreationPage.setEmployeeLoginStatus(employeeDetails.status);
+
+    }
+
+    /**
+     * Validates error messages for employee details.
+     *
+     * @param {Object} employeeDetails - The details of the employee to validate.
+     */
+    validateErrorMessages(employeeDetails) {
+        cy.log('Validating error messages');
+
+        //Empty first name
+        if(employeeDetails.firstname === '') {
+            cy.log('Validating first name error message');
             this.employeeCreationPage.checkEmployeeFirstNameEmptyError();
         }
-        if (!lastname) {
-            cy.log('Last name is missing');
+
+        //Empty last name
+        if(employeeDetails.lastname === '') {
+            cy.log('Validating last name error message');
             this.employeeCreationPage.checkEmployeeLastNameEmptyError();
         }
-        if(loginDetails) {
-            if (!username) {
-                cy.log('Username is missing');
+        if(employeeDetails.loginDetails) {
+            if(employeeDetails.username === '') {
+                cy.log('Validating username error message');
                 this.employeeCreationPage.checkEmployeeUsernameEmptyError();
             }
-            if (!password) {
-                cy.log('Password is missing');
+            if(employeeDetails.password === '') {
+                cy.log('Validating password error message');
                 this.employeeCreationPage.checkEmployeePasswordError();
             }
-            if (!confirmedPassword) {
-                cy.log('Confirmed password is missing');
+            if(employeeDetails.password !== employeeDetails.confirmedPassword) {
+                //TODO - Complete this part
                 //this.employeeCreationPage.checkEmployeeConfirmedPasswordError();
-            }
-            if(password !== confirmedPassword) {
-                cy.log('Passwords do not match');
-                //this.employeeCreationPage.checkEmployeePasswordMatchError();
             }
         }
     }
-        // Save the employee
-        //this.employeeCreationPage.clickSave
+
+    validateCreatedEmployee(employeeDetails) {
+        cy.log('Validating created employee');
+        //TODO - Complete this method
+    }
+
 }
 
 export default EmployeeCreationFlows;

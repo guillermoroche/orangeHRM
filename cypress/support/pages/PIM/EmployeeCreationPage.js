@@ -5,30 +5,34 @@ class EmployeeCreationPage {
         this.employeeFormCard = 'div.orangehrm-card-container:contains("Add Employee")';
 
         this.employeeFullName = `${this.employeeFormCard} div.oxd-grid-item:contains('Employee Full Name')`;
-        this.employeeID = `${this.employeeFormCard} div.oxd-grid-item:contains('Employee Id')`;
 
-        this.employeeIdAlreadyExistsError = `${this.employeeID} span:contains('Employee Id already exists')`;
+        this.formInputFields = {
+            employeeFirstName :      `${this.employeeFullName} input[name='firstName']`,
+            employeeMiddleName : `${this.employeeFullName} input[name='middleName']`,
+            employeeLastName :      `${this.employeeFullName} input[name='lastName']`,
+            employeeID :                     `${this.employeeFormCard} div.oxd-grid-item:contains('Employee Id')`,
+            employeeUserName :     `${this.employeeFormCard} div.oxd-input-group:contains('Username') input`,
+            employeePassword :       `${this.employeeFormCard} div.oxd-input-group:contains('Password') input`,
+        }
 
-        this.employeeFirstName = `${this.employeeFullName} input[name='firstName']`;
-        this.employeeMiddleName = `${this.employeeFullName} input[name='middleName']`;
-        this.employeeLastName = `${this.employeeFullName} input[name='lastName']`;
-
-
-        this.employeeFirstNameError = `${this.employeeFullName} .--name-grouped-field > :nth-child(1) > span.oxd-text`;
-        this.employeeLastNameError = `${this.employeeFullName} .--name-grouped-field > :nth-child(3) > span.oxd-text`;
-
-        this.employeeSwitchLoginDetails = ` ${this.employeeFormCard} div:contains('Create Login Details') input[type='checkbox']`;
-        this.employeeUserName = `${this.employeeFormCard} div.oxd-input-group:contains('Username') input`;
-        this.employeeUserNameError = `${this.employeeFormCard} div.oxd-input-group:contains('Username')  span.oxd-text`;
-        this.employeePassword = `${this.employeeFormCard} div.oxd-input-group:contains('Password') input`;
-        //FIXME↓↓↓↓↓ - This selector is wrong, gets both password and confirmed password
-        this.employeePasswordError = `${this.employeeFormCard} div.oxd-input-group:contains('Password')  span.oxd-text`;
-        //----------------------------------------------------------------------------------
         this.employeeLoginStatus = `${this.employeeFormCard} div.oxd-grid-item:contains('Status') div.oxd-radio-wrapper`;
+        
+        this.errors = {
+            employeeUserNameError: `${this.employeeFormCard} div.oxd-input-group:contains('Username')  span.oxd-text`,
+            employeeFirstNameError: `${this.employeeFullName} .--name-grouped-field > :nth-child(1) > span.oxd-text`,
+            employeeLastNameError: `${this.employeeFullName} .--name-grouped-field > :nth-child(3) > span.oxd-text`,
+            employeeIdAlreadyExistsError : `${this.employeeID} span:contains('Employee Id already exists')`,
+            //FIXME↓↓↓↓↓ - This selector is wrong, gets both password and confirmed password 
+            employeePasswordError : `${this.employeeFormCard} div.oxd-input-group:contains('Password')  span.oxd-text`,
+        }
 
         this.formActionsBar = `${this.employeeFormCard} div.oxd-form-actions`;
-        this.formSaveButton = `${this.formActionsBar} button:contains('Save')`;
-        this.formCancelButton = `${this.formActionsBar} button:contains('Cancel')`;
+
+        this.buttons = {
+            employeeSwitchLoginDetails : ` ${this.employeeFormCard} div:contains('Create Login Details') input[type='checkbox']`,
+            formSaveButton : `${this.formActionsBar} button:contains('Save')`,
+            formCancelButton : `${this.formActionsBar} button:contains('Cancel')`,
+        }
     }
 
     checkThatEmployeeFormLoads() {
@@ -52,69 +56,71 @@ class EmployeeCreationPage {
     }
     fillEmployeeFirstName(firstName) {
         if (firstName && firstName.length > 0) {
-            cy.get(this.employeeFirstName).clear().type(firstName);
+            cy.get(this.formInputFields.employeeFirstName).clear().type(firstName);
         }
     }
     checkEmployeeFirstNameEmptyError() {
-        cy.get(this.employeeFirstNameError).should('be.visible').and('contain', 'Required');
+        cy.get(this.errors.employeeFirstNameError).should('be.visible').and('contain', 'Required');
     }
 
     fillEmployeeMiddleName(middleName) {
         if (middleName && middleName.length > 0) {
-            cy.get(this.employeeMiddleName).clear().type(middleName);
+            cy.get(this.formInputFields.employeeMiddleName).clear().type(middleName);
         }
     }
 
     fillEmployeeLastName(lastName) {
         if (lastName && lastName.length > 0) {
-            cy.get(this.employeeLastName).clear().type(lastName);
+            cy.get(this.formInputFields.employeeLastName).clear().type(lastName);
         }
     }
     checkEmployeeLastNameEmptyError() {
-        cy.get(this.employeeLastNameError).should('be.visible').and('contain', 'Required');
+        cy.get(this.errors.employeeLastNameError).should('be.visible').and('contain', 'Required');
     }
 
     fillEmployeeId(employeeId) {
-        cy.get(this.employeeID).clear();
-        cy.get(this.employeeID).type(employeeId);
+        cy.get(this.formInputFields.employeeID).clear();
+        cy.get(this.formInputFields.employeeID).type(employeeId);
         cy.intercept('GET', '**/web/index.php/api/v2/core/validation/unique**').as('checkUniqueId');
         cy.wait('@checkUniqueId');
     }
-    fillEmployeeUserName(userName) {
+    fillEmployeeUsername(userName) {
         if (userName && userName.length > 0) {
-            cy.get(this.employeeUserName).clear().type(userName);
+            cy.get(this.formInputFields.employeeUserName).clear().type(userName);
         }
     }
     checkEmployeeUsernameEmptyError() {
-        cy.get(this.employeeUserNameError).should('be.visible').and('contain', 'Required');
+        cy.get(this.errors.employeeUserNameError).should('be.visible').and('contain', 'Required');
     }
 
 
     fillEmployeePassword(password) {
         if (password && password.length > 0) {
-            cy.get(this.employeePassword).eq(0).type(password);
+            cy.get(this.formInputFields.employeePassword).eq(0).type(password);
         }
     }
     checkEmployeePasswordError() {
-        cy.get(this.employeePasswordError).should('be.visible').and('contain', 'Required');
+        cy.get(this.errors.employeePasswordError).should('be.visible').and('contain', 'Required');
     }
 
 
     fillEmployeeConfirmedPassword(confirmedPassword) {
         if (confirmedPassword && confirmedPassword.length > 0) {
-            cy.get(this.employeePassword).eq(1).type(confirmedPassword);
+            cy.get(this.formInputFields.employeePassword).eq(1).type(confirmedPassword);
         }
     }
 
     switchLoginDetails() {
-        cy.get(this.employeeSwitchLoginDetails).click({ force: true });
+        cy.get(this.buttons.employeeSwitchLoginDetails).click({ force: true });
+    }
+
+    setEmployeeLoginStatus(status) {
+        cy.get(this.employeeLoginStatus).contains(status).click();
     }
 
 
-
-
     clickSaveButton() {
-        cy.get(this.formSaveButton).click();
+        cy.get(this.buttons.formSaveButton).click();
     }
 
 }

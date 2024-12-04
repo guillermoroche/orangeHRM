@@ -79,7 +79,7 @@ class EmployeeManagementPage {
         });
     }
 
-    clickAddEmployee() {
+    clickAddButton() {
         cy.get(this.addEmployeeButton).click();
     }
 }
