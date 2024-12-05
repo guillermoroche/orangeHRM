@@ -47,12 +47,7 @@ class EmployeeProfilePage {
         cy.get(this.employeeId).should('have.value', employeeId);
     }
 
-    checkEmployeeBasicDetails(fullName, employeeId) {
-        this.checkEmployeeFirsrName(fullName.firstName);
-        this.checkEmployeeMiddleName(fullName.middleName);
-        this.checkEmployeeLastName(fullName.lastName);
-        this.checkEmployeeId(employeeId);
-    }
+    
 
 }
 

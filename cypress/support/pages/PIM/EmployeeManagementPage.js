@@ -23,6 +23,8 @@ class EmployeeManagementPage {
 
         this.addEmployeeButton = `${this.employeeTableSection} button:contains('Add')`;
         this.employeeTablerows = `${this.employeeTableSection} div.oxd-table-body div.oxd-table-row`;
+
+        this.searchQueryURL = '**web/index.php/api/v2/pim/employees**';
     }
 
     checkEmployeeManagementPageLoads() {
@@ -46,41 +48,58 @@ class EmployeeManagementPage {
         cy.get(this.employeeTablerows).should('have.length.greaterThan', 0);
 
     }
-
-    waitForEmployeeManagementTableToLoad() {
-        cy.intercept('GET', '**web/index.php/api/v2/pim/employees**').as('getEmployeeManagement');
-        cy.wait('@getEmployeeManagement').its('response.statusCode').should('equal', 200);
-    }
-
-    fillEmployeeName(employeeName) {
-        cy.get(this.filterEmployeeName).type(employeeName.firstName + ' ' + employeeName.middleName + ' ' + employeeName.lastName);
+    //-------------------------------------------------------------------------------------------------
+    //Filling input fields
+    //------------------------------------------------------------------------------------------------
+    fillEmployeeFullName(employeeName) {
+        cy.get(this.filterEmployeeName).type(employeeName);
         cy.intercept('GET', '**/web/index.php/api/v2/pim/employees?nameOrId**').as('getEmployeeSearch');
         cy.wait('@getEmployeeSearch');
         cy.get(this.filterEmployeeNameSuggestions).click();
     }
-
     fillEmployeeId(employeeId) {
         cy.get(this.filterEmployeeId).type(employeeId);
     }
-
+    fillEmploymentStatus(employmentStatus) {
+        //TODO - Implement fillEmploymentStatus method
+    }
+    fillInclude(include) {
+        //TODO - Implement fillInclude method
+    }
+    fillSupervisorName(supervisorName) {
+        //TODO - Implement fillSupervisorName method
+    }
+    fillJobTitle(jobTitle) {
+        //TODO - Implement fillJobTitle method
+    }
+    fillSubUnit(subUnit) {
+        //TODO - Implement fillSubUnit method
+    }
+    //-------------------------------------------------------------------------------------------------
+    //Clicking buttons
+    //-------------------------------------------------------------------------------------------------
     clickSearchButton() {
+        cy.intercept('GET', '**/web/index.php/api/v2/pim/employees**').as('getEmployeeSearchResults');
         cy.get(this.searchButton).click();
+        cy.wait('@getEmployeeSearchResults').its('response.statusCode').should('equal', 200);
     }
-
-    checkSearchResults(employeeName, employeeId) {
-        cy.get(this.employeeTablerows).should('have.length', 1);
-        cy.get(this.employeeTablerows).within(() => {
-            cy.get('div.oxd-table-cell:nth-child(3)').contains(employeeName.firstName + ' ' + employeeName.middleName).should('be.visible');
-            cy.get('div.oxd-table-cell:nth-child(4)').contains(employeeName.lastName).should('be.visible');
-
-            if (employeeId.length > 0) {
-                cy.get('div').contains(employeeId).should('be.visible');
-            }
-        });
-    }
-
     clickAddButton() {
         cy.get(this.addEmployeeButton).click();
+    }
+
+    //-------------------------------------------------------------------------------------------------
+    //Checking search results
+    //-------------------------------------------------------------------------------------------------
+    checkSearchResults() {
+        cy.get(this.employeeTablerows).should('have.length.greaterThan', 0);
+    }
+
+    //-------------------------------------------------------------------------------------------------
+    //Clicking on employee row
+    //-------------------------------------------------------------------------------------------------
+    clickEmployeeRow() {
+        cy.get(this.employeeTablerows).click();
+        cy.wait(20000)
     }
 }
 

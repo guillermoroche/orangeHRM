@@ -33,7 +33,13 @@ class EmployeeCreationPage {
             formSaveButton : `${this.formActionsBar} button:contains('Save')`,
             formCancelButton : `${this.formActionsBar} button:contains('Cancel')`,
         }
+
+        this.employeeAccountStatus = {
+            enabled: 'Enabled',
+            disabled: 'Disabled'
+        }
     }
+
 
     checkThatEmployeeFormLoads() {
         cy.get(this.employeeFormCard).should('be.visible');
@@ -51,33 +57,24 @@ class EmployeeCreationPage {
 
     }
 
-    checkEmployeeIdAlreadyExistsError() {
-        cy.get(this.employeeIdAlreadyExistsError).should('be.visible');
-    }
+    //-------------------------------------------------------------------------------------------------
+    //Filling input fields
+    //-------------------------------------------------------------------------------------------------
     fillEmployeeFirstName(firstName) {
         if (firstName && firstName.length > 0) {
             cy.get(this.formInputFields.employeeFirstName).clear().type(firstName);
         }
     }
-    checkEmployeeFirstNameEmptyError() {
-        cy.get(this.errors.employeeFirstNameError).should('be.visible').and('contain', 'Required');
-    }
-
     fillEmployeeMiddleName(middleName) {
         if (middleName && middleName.length > 0) {
             cy.get(this.formInputFields.employeeMiddleName).clear().type(middleName);
         }
     }
-
     fillEmployeeLastName(lastName) {
         if (lastName && lastName.length > 0) {
             cy.get(this.formInputFields.employeeLastName).clear().type(lastName);
         }
     }
-    checkEmployeeLastNameEmptyError() {
-        cy.get(this.errors.employeeLastNameError).should('be.visible').and('contain', 'Required');
-    }
-
     fillEmployeeId(employeeId) {
         cy.get(this.formInputFields.employeeID).clear();
         cy.get(this.formInputFields.employeeID).type(employeeId);
@@ -89,33 +86,55 @@ class EmployeeCreationPage {
             cy.get(this.formInputFields.employeeUserName).clear().type(userName);
         }
     }
-    checkEmployeeUsernameEmptyError() {
-        cy.get(this.errors.employeeUserNameError).should('be.visible').and('contain', 'Required');
-    }
-
-
     fillEmployeePassword(password) {
         if (password && password.length > 0) {
             cy.get(this.formInputFields.employeePassword).eq(0).type(password);
         }
     }
-    checkEmployeePasswordError() {
-        cy.get(this.errors.employeePasswordError).should('be.visible').and('contain', 'Required');
-    }
-
-
     fillEmployeeConfirmedPassword(confirmedPassword) {
         if (confirmedPassword && confirmedPassword.length > 0) {
             cy.get(this.formInputFields.employeePassword).eq(1).type(confirmedPassword);
         }
     }
-
-    switchLoginDetails() {
-        cy.get(this.buttons.employeeSwitchLoginDetails).click({ force: true });
+    switchLoginDetails(loginDetails) {
+        if(loginDetails) {
+            cy.get(this.buttons.employeeSwitchLoginDetails).should('be.enabled').check({force: true});
+        } else {
+            cy.get(this.buttons.employeeSwitchLoginDetails).should('be.enabled').uncheck({force: true});
+        }
+    }
+    //-------------------------------------------------------------------------------------------------
+    //Error checking
+    //-------------------------------------------------------------------------------------------------
+    checkEmployeeIdAlreadyExistsError() {
+        cy.get(this.employeeIdAlreadyExistsError).should('be.visible');
+    }
+    checkEmployeeFirstNameEmptyError() {
+        cy.get(this.errors.employeeFirstNameError).should('be.visible').and('contain', 'Required');
+    }
+    checkEmployeeLastNameEmptyError() {
+        cy.get(this.errors.employeeLastNameError).should('be.visible').and('contain', 'Required');
+    }
+    checkEmployeeUsernameEmptyError() {
+        cy.get(this.errors.employeeUserNameError).should('be.visible').and('contain', 'Required');
+    }
+    checkEmployeePasswordError() {
+        cy.get(this.errors.employeePasswordError).should('be.visible').and('contain', 'Required');
+    }
+    checkEmployeePasswordDoesNotMatchError() {
+        cy.get(this.errors.employeePasswordError).should('be.visible').and('contain', 'Passwords do not match');
     }
 
-    setEmployeeLoginStatus(status) {
-        cy.get(this.employeeLoginStatus).contains(status).click();
+    
+
+
+
+    setEmployeeLoginStatus(loginEnabled) {
+        if(loginEnabled) {
+            cy.get(this.employeeLoginStatus).contains(this.employeeAccountStatus.enabled).click();
+        } else {
+            cy.get(this.employeeLoginStatus).contains(this.employeeAccountStatus.disabled).click();
+        }
     }
 
 
