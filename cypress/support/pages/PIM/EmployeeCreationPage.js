@@ -10,7 +10,7 @@ class EmployeeCreationPage {
             employeeFirstName :      `${this.employeeFullName} input[name='firstName']`,
             employeeMiddleName : `${this.employeeFullName} input[name='middleName']`,
             employeeLastName :      `${this.employeeFullName} input[name='lastName']`,
-            employeeID :                     `${this.employeeFormCard} div.oxd-grid-item:contains('Employee Id')`,
+            employeeID :           `${this.employeeFormCard} div.oxd-grid-item:contains('Employee Id') input`,
             employeeUserName :     `${this.employeeFormCard} div.oxd-input-group:contains('Username') input`,
             employeePassword :       `${this.employeeFormCard} div.oxd-input-group:contains('Password') input`,
         }
@@ -76,7 +76,7 @@ class EmployeeCreationPage {
         }
     }
     fillEmployeeId(employeeId) {
-        cy.get(this.formInputFields.employeeID).clear();
+        cy.get(this.formInputFields.employeeID).should('be.enabled').clear();
         cy.get(this.formInputFields.employeeID).type(employeeId);
         cy.intercept('GET', '**/web/index.php/api/v2/core/validation/unique**').as('checkUniqueId');
         cy.wait('@checkUniqueId');
@@ -139,7 +139,11 @@ class EmployeeCreationPage {
 
 
     clickSaveButton() {
+
+        //Dynamic wait for the POST request to complete
+        cy.intercept('POST', '**web/index.php/api/v2/pim/employees').as('createEmployee');
         cy.get(this.buttons.formSaveButton).click();
+        cy.wait('@createEmployee');
     }
 
 }

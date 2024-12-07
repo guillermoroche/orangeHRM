@@ -50,9 +50,11 @@ class EmployeeCreationFlows {
      */
     #fillEmployeeBasicDetails(employeeDetails) {
 
-        this.employeeCreationPage.fillEmployeeFirstName(employeeDetails.firstname);
-        this.employeeCreationPage.fillEmployeeMiddleName(employeeDetails.middlename);
-        this.employeeCreationPage.fillEmployeeLastName(employeeDetails.lastname);
+        cy.log('Filling in the basic details of the employee');
+        cy.log(employeeDetails);
+        this.employeeCreationPage.fillEmployeeFirstName(employeeDetails.firstName);
+        this.employeeCreationPage.fillEmployeeMiddleName(employeeDetails.middleName);
+        this.employeeCreationPage.fillEmployeeLastName(employeeDetails.lastName);
         this.employeeCreationPage.fillEmployeeId(employeeDetails.employeeId);
 
     }
