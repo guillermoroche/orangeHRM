@@ -1,6 +1,5 @@
 class MainPage {
     constructor() {
-        // Define selectors here
         this.sideMenu = 'nav.oxd-navbar-nav';
         this.topBar = 'div.oxd-topbar-header';
         this.dashboard = 'div.orangehrm-dashboard-grid';
@@ -12,6 +11,7 @@ class MainPage {
 
         this.sideMenuOptions = {
             dashboard: 'Dashboard',
+            Admin: 'Admin',
             PIM: 'PIM',
             leave: 'Leave',
             time: 'Time',

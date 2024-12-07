@@ -37,9 +37,6 @@ class UserManagementPage {
         cy.get(this.userTable).should('be.visible');
         cy.get(this.userTableRows).should('have.length.greaterThan', 0);
     }
-    testMethod() {
-        cy.log('This is a test method');
-    }
     /**
      * Fills the username input field with the provided username.
      *
@@ -52,7 +49,10 @@ class UserManagementPage {
 
     clickSearchButton() {
         cy.get(this.searchButton).click();
-    } 
+    }
+    clickAddUserButton() {
+        cy.get(this.addUserButton).should('be.enabled').click(); 
+    }
     
     checkSearchResults(username, employeeName) {
         cy.get(this.userTableRows).should('have.length', 1);

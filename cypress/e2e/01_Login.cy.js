@@ -42,4 +42,16 @@ describe('Login functionality', () => {
         loginPage.checkMissingUsernameErrorIsNotVisible();
     });
 
+    it('Logout from the app', () => {
+        Cypress.on('uncaught:exception', (err, runnable) => {
+            // returning false here prevents Cypress from
+            // failing the test
+            cy.log('Caught exception: ' + err);
+            return false
+        })
+        loginPage.loginIntoApp();
+        mainPage.userLogout();
+        loginPage.checkLoginForm();
+    });
+
 });

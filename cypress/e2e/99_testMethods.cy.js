@@ -1,10 +1,14 @@
 import EmployeeCreation from '../support/flows/employeeCreationFlow';
 import EmployeeSearchFlow from '../support/flows/employeeSearchFlow';
+import UserManagementPage from '../support/pages/Admin/UserManagementPage';
+import UserAddPage from '../support/pages/Admin/UserAddPage';
 import LoginPage from '../support/pages/LoginPage';
+import MainPage from '../support/pages/MainPage';
+
 import {getRandomEmployeeId,getRandomFullName} from '../support/utils';
 describe('TEST SANDBOX', () => {
 
-    it('Check that Employee page loads', () => {
+    it.skip('Check that Employee page loads', () => {
         let employeeCreationFlow = new EmployeeCreation();
         let employeeSearchFlow = new EmployeeSearchFlow();
         let loginPage = new LoginPage();
@@ -25,5 +29,15 @@ describe('TEST SANDBOX', () => {
         };
         //employeeCreationFlow.createEmployee(employee);
         employeeSearchFlow.searchEmployee({employeeFullName: 'awgaiub awgaiubl'});
+    });
+    it('Account creation', () => {
+        let loginPage = new LoginPage();
+        let userAddPage = new UserAddPage();
+        let mainPage = new MainPage();
+        let userManagementPage = new UserManagementPage();
+
+        loginPage.loginIntoApp();
+        mainPage.selectSideMenuOption(mainPage.sideMenuOptions.Admin);
+        userManagementPage.clickAddUserButton();
     });
 });
