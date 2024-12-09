@@ -30,6 +30,8 @@ class MainPage {
 
         if (accountDetails) {
             cy.get(this.username).should('contain', accountDetails.firstName + ' ' + accountDetails.lastName).and('be.visible');
+            // TODO If the user is an ESS user, the Admin option should not be visible
+            // TODO If the user is an Admin user, the Admin option should be visible
         }
 
         //TODO verify that the correct options in the side menu are visible according to the user's role

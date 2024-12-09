@@ -1,6 +1,7 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
+  projectId: '2sf394',
   e2e: {
     setupNodeEvents(on, config) {
       require('cypress-terminal-report/src/installLogsPrinter')(on);
@@ -15,5 +16,6 @@ module.exports = defineConfig({
     watchForFileChanges: false,
     viewportWidth: 1900,
     viewportHeight: 1080,
+    defaultCommandTimeout: 10000,
   },
 });

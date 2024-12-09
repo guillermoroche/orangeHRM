@@ -16,8 +16,7 @@ class LoginPage {
     }
 
     visitLoginPage() {
-        const baseURL = Cypress.env('URL_base');
-        cy.visit(baseURL + this.loginURL);
+        cy.visit(Cypress.env('URL_base') + this.loginURL);
     }
 
     checkLoginForm() {
@@ -41,9 +40,11 @@ class LoginPage {
     }
 
     checkWrongCredentialsError() {
-        cy.get(this.wrongCredentialsError).should('be.visible');
+        cy.get(this.wrongCredentialsError).should('be.visible').and('contain', 'Invalid credentials');
         cy.get(this.missingUsernameError).should('not.exist');
         cy.get(this.missingPasswordError).should('not.exist');
+        cy.url().should('eq', Cypress.env('URL_base') + this.loginURL);
+        
     }
 
     checkMissingUsernameError() {
@@ -58,6 +59,10 @@ class LoginPage {
         cy.get(this.missingPasswordError).should('not.exist');
     }
 
+    checkDisabledAccountError() {
+        cy.get(this.disabledAccountError).should('be.visible');
+    }
+
     checkMissingPasswordError() {   
         cy.get(this.wrongCredentialsError).should('not.exist');
         cy.get(this.missingPasswordError).should('be.visible');
@@ -65,6 +70,8 @@ class LoginPage {
 
     checkDisabledAccountError() {
         cy.get(this.disabledAccountError).should('be.visible');
+        //Check that the URL is still the login page
+        cy.url().should('eq', Cypress.env('URL_base') + this.loginURL);
     }
 
     checkSuccessURL() {
